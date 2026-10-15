@@ -26,7 +26,7 @@ import { useSlowHint } from "@/hooks/use-slow-hint";
 import { DEMO_ACCOUNTS } from "@/lib/constants";
 import { type LoginInput, loginSchema } from "@/lib/validations/auth";
 import type { Role } from "@/types/api";
-
+import { GoogleButton } from "@/components/shared/google-button";
 const ROLE_ICON: Record<Role, typeof ShieldCheck> = {
   ADMIN: ShieldCheck,
   CANDIDATE: UserCircle,
@@ -109,7 +109,12 @@ export function LoginView() {
               Login
             </Button>
           </form>
-
+          <div className="my-5 flex items-center gap-3">
+            <Separator className="flex-1" />
+            <span className="text-xs text-muted-foreground">or</span>
+            <Separator className="flex-1" />
+          </div>
+          <GoogleButton />
           <p className="mt-4 text-center text-sm text-muted-foreground">
             New here?{" "}
             <Link
