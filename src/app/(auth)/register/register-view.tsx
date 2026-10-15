@@ -23,6 +23,8 @@ import { Label } from "@/components/ui/label";
 import { useRegister } from "@/hooks/use-register";
 import { cn } from "@/lib/utils";
 import { type RegisterInput, registerSchema } from "@/lib/validations/auth";
+import { GoogleButton } from "@/components/shared/google-button";
+import { Separator } from "@/components/ui/separator";
 
 // ADMIN can't self-register, so the form only deals with these two roles.
 type SelfServeRole = RegisterInput["role"];
@@ -167,7 +169,12 @@ export function RegisterView() {
             Create account
           </Button>
         </form>
-
+        <div className="my-5 flex items-center gap-3">
+          <Separator className="flex-1" />
+          <span className="text-xs text-muted-foreground">OR</span>
+          <Separator className="flex-1" />
+        </div>
+        <GoogleButton role={role} />
         <p className="mt-4 text-center text-sm text-muted-foreground">
           Already have an account?{" "}
           <Link
