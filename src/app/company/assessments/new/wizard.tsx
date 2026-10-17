@@ -111,7 +111,7 @@ export function Wizard() {
                 type="number"
                 min={1}
                 aria-invalid={!!errors.durationMinutes}
-                {...register("durationMinutes")}
+                {...register("durationMinutes", { valueAsNumber: true })}
               />
               {errors.durationMinutes && (
                 <p className="text-sm text-destructive">
