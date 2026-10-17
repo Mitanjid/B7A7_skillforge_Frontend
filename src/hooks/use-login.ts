@@ -5,7 +5,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { ME_KEY } from "@/hooks/use-auth";
 import { authApi } from "@/lib/api-client";
-import { ROLE_HOME } from "@/lib/constants";
 import type { LoginInput } from "@/lib/validations/auth";
 import type { AuthResult } from "@/types/api";
 
@@ -16,7 +15,7 @@ export function useLogin() {
 
   return useMutation({
     mutationFn: (values: LoginInput) => authApi.login<AuthResult>(values),
-    onSuccess: ({ data }) => {
+    onSuccess: () => {
       qc.removeQueries({ queryKey: ME_KEY });
       toast.success("Logged in successfully");
 
@@ -24,7 +23,7 @@ export function useLogin() {
       const safeNext =
         next?.startsWith("/") && !next.startsWith("//") ? next : null;
 
-      router.replace(safeNext ?? ROLE_HOME[data.user.role]);
+      router.replace(safeNext ?? "/");
       router.refresh();
     },
   });
