@@ -130,7 +130,7 @@ export default function AssessmentDetailPage({
             <Dialog open={pickerOpen} onOpenChange={setPickerOpen}>
               <DialogTrigger
                 render={
-                  <Button nativeButton={false} size="sm" variant="outline">
+                  <Button  size="sm" variant="outline">
                     <Plus className="mr-1 size-4" />
                     Add problem
                   </Button>
@@ -233,7 +233,7 @@ export default function AssessmentDetailPage({
                 <AlertDialogTrigger
                   render={
                     <Button
-                      nativeButton={false}
+                      
                        disabled={assessment.totalMarks === 0}
                     >
                       <CreditCard className="mr-2 size-4" />
