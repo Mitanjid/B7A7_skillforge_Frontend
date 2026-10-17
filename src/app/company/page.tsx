@@ -5,14 +5,9 @@ import {
   Users,
 } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { StatusBadge } from "@/components/shared/status-badge";
+import { buttonVariants } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { serverFetch } from "@/lib/server-api";
 import type { Assessment } from "@/types/api";
 
@@ -27,12 +22,8 @@ export default async function CompanyOverviewPage() {
 
   const assessments = res.data;
   const total = res.meta?.total ?? assessments.length;
-  const published = assessments.filter(
-    (a) => a.status === "PUBLISHED",
-  ).length;
-  const draft = assessments.filter(
-    (a) => a.status === "DRAFT",
-  ).length;
+  const published = assessments.filter((a) => a.status === "PUBLISHED").length;
+  const draft = assessments.filter((a) => a.status === "DRAFT").length;
 
   return (
     <div className="space-y-6">

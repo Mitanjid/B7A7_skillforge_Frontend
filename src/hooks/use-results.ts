@@ -16,7 +16,6 @@ export type ResultRow = {
   submittedAt: string | null;
 };
 
-
 export function useAssessmentResults(assessmentId: string) {
   return useQuery({
     queryKey: ["results", assessmentId],

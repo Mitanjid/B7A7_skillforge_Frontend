@@ -1,4 +1,6 @@
 import { CreditCard } from "@phosphor-icons/react/dist/ssr";
+import { EmptyState } from "@/components/shared/empty-state";
+import { StatusBadge } from "@/components/shared/status-badge";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Table,
@@ -8,8 +10,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { EmptyState } from "@/components/shared/empty-state";
-import { StatusBadge } from "@/components/shared/status-badge";
 import { serverFetch } from "@/lib/server-api";
 import type { Payment } from "@/types/api";
 

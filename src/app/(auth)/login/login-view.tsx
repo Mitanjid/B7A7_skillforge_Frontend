@@ -10,6 +10,8 @@ import {
 import Link from "next/link";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { GoogleButton } from "@/components/shared/google-button";
+import { PasswordInput } from "@/components/shared/password-input";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -26,8 +28,7 @@ import { useSlowHint } from "@/hooks/use-slow-hint";
 import { DEMO_ACCOUNTS } from "@/lib/constants";
 import { type LoginInput, loginSchema } from "@/lib/validations/auth";
 import type { Role } from "@/types/api";
-import { GoogleButton } from "@/components/shared/google-button";
-import { PasswordInput } from "@/components/shared/password-input";
+
 const ROLE_ICON: Record<Role, typeof ShieldCheck> = {
   ADMIN: ShieldCheck,
   CANDIDATE: UserCircle,

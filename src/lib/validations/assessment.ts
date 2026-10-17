@@ -24,5 +24,4 @@ export const inviteCandidatesSchema = z.object({
 });
 export type InviteCandidatesInput = z.infer<typeof inviteCandidatesSchema>;
 
-
 export type EvaluateSubmissionInput = z.infer<typeof evaluateSubmissionSchema>;

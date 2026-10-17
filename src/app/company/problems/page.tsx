@@ -48,7 +48,10 @@ export default async function ProblemsPage({ searchParams }: PageProps) {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-2xl font-semibold">Problems</h1>
 
-        <Button nativeButton={false} render={<Link href="/company/problems/new" />}>
+        <Button
+          nativeButton={false}
+          render={<Link href="/company/problems/new" />}
+        >
           New problem
         </Button>
       </div>
@@ -80,9 +83,7 @@ export default async function ProblemsPage({ searchParams }: PageProps) {
               <TableBody>
                 {problems.map((p) => (
                   <TableRow key={p.id}>
-                    <TableCell className="font-medium">
-                      {p.title}
-                    </TableCell>
+                    <TableCell className="font-medium">{p.title}</TableCell>
                     <TableCell>{p.type}</TableCell>
                     <TableCell>{p.difficulty}</TableCell>
                     <TableCell>{p.marks ?? "—"}</TableCell>
@@ -98,10 +99,7 @@ export default async function ProblemsPage({ searchParams }: PageProps) {
       </Card>
 
       {meta && (
-        <PaginationControls
-          page={meta.page}
-          totalPages={meta.totalPages}
-        />
+        <PaginationControls page={meta.page} totalPages={meta.totalPages} />
       )}
     </div>
   );

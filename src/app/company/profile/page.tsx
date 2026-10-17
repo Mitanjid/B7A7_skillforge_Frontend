@@ -6,13 +6,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import { ProfileImageUpload } from "@/components/shared/profile-image-upload";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ME_KEY, useAuth } from "@/hooks/use-auth";
 import { api } from "@/lib/api-client";
-import { ProfileImageUpload } from "@/components/shared/profile-image-upload";
 
 const schema = z.object({
   companyName: z.string().min(2, "Company name must be at least 2 characters"),

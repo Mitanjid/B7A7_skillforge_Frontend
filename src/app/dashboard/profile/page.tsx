@@ -6,6 +6,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import { ProfileImageUpload } from "@/components/shared/profile-image-upload";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -13,51 +14,51 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { ME_KEY, useAuth } from "@/hooks/use-auth";
 import { api } from "@/lib/api-client";
-import { ProfileImageUpload } from "@/components/shared/profile-image-upload";
+
 const schema = z.object({
-	fullName: z.string().min(2, "Name must be at least 2 characters"),
-	phone: z.string(),
-	skills: z.string(),
-	resumeUrl: z.union([z.url("Enter a valid URL"), z.literal("")]),
+  fullName: z.string().min(2, "Name must be at least 2 characters"),
+  phone: z.string(),
+  skills: z.string(),
+  resumeUrl: z.union([z.url("Enter a valid URL"), z.literal("")]),
 });
 type ProfileValues = z.infer<typeof schema>;
 
 export default function CandidateProfilePage() {
-	const { user } = useAuth();
-	const qc = useQueryClient();
+  const { user } = useAuth();
+  const qc = useQueryClient();
 
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm<ProfileValues>({
-		resolver: zodResolver(schema),
-		values: {
-			fullName: user?.candidateProfile?.fullName ?? "",
-			phone: user?.candidateProfile?.phone ?? "",
-			skills: user?.candidateProfile?.skills.join(", ") ?? "",
-			resumeUrl: user?.candidateProfile?.resumeUrl ?? "",
-		},
-	});
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ProfileValues>({
+    resolver: zodResolver(schema),
+    values: {
+      fullName: user?.candidateProfile?.fullName ?? "",
+      phone: user?.candidateProfile?.phone ?? "",
+      skills: user?.candidateProfile?.skills.join(", ") ?? "",
+      resumeUrl: user?.candidateProfile?.resumeUrl ?? "",
+    },
+  });
 
-	const update = useMutation({
-		mutationFn: (values: ProfileValues) =>
-			api.patch("/users/me", {
-				fullName: values.fullName,
-				phone: values.phone || undefined,
-				resumeUrl: values.resumeUrl || undefined,
-				skills: values.skills
-					.split(",")
-					.map((s) => s.trim())
-					.filter(Boolean),
-			}),
-		onSuccess: () => {
-			qc.invalidateQueries({ queryKey: ME_KEY });
-			toast.success("Profile updated");
-		},
-	});
+  const update = useMutation({
+    mutationFn: (values: ProfileValues) =>
+      api.patch("/users/me", {
+        fullName: values.fullName,
+        phone: values.phone || undefined,
+        resumeUrl: values.resumeUrl || undefined,
+        skills: values.skills
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean),
+      }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ME_KEY });
+      toast.success("Profile updated");
+    },
+  });
 
-	return (
+  return (
     <div className="mx-auto max-w-xl space-y-6">
       <h1 className="text-2xl font-semibold">Profile</h1>
       {user && (

@@ -10,6 +10,8 @@ import {
 import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { GoogleButton } from "@/components/shared/google-button";
+import { PasswordInput } from "@/components/shared/password-input";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -20,12 +22,10 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 import { useRegister } from "@/hooks/use-register";
 import { cn } from "@/lib/utils";
 import { type RegisterInput, registerSchema } from "@/lib/validations/auth";
-import { GoogleButton } from "@/components/shared/google-button";
-import { Separator } from "@/components/ui/separator";
-import { PasswordInput } from "@/components/shared/password-input";
 
 // ADMIN can't self-register, so the form only deals with these two roles.
 type SelfServeRole = RegisterInput["role"];

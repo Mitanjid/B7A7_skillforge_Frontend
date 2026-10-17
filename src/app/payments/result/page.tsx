@@ -17,9 +17,7 @@ export default async function PaymentResultPage({
   if (!success) {
     redirect(
       `/payment/cancel${
-        sp.assessmentId
-          ? `?assessmentId=${sp.assessmentId}`
-          : ""
+        sp.assessmentId ? `?assessmentId=${sp.assessmentId}` : ""
       }`,
     );
   }

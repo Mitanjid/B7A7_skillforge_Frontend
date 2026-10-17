@@ -17,11 +17,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useDeleteProblem } from "@/hooks/use-problems";
 
-export function ProblemRowActions({
-  problemId,
-}: {
-  problemId: string;
-}) {
+export function ProblemRowActions({ problemId }: { problemId: string }) {
   const del = useDeleteProblem();
   const [open, setOpen] = useState(false);
 

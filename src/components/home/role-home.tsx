@@ -16,6 +16,7 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { AcceptInvitationButton } from "@/app/dashboard/accept-invitation-button";
 import { StartAttemptButton } from "@/app/dashboard/start-attempt-button";
 import { StatCard } from "@/components/shared/stat-card";
 import { StatusBadge } from "@/components/shared/status-badge";
@@ -31,7 +32,6 @@ import type {
   Invitation,
   User,
 } from "@/types/api";
-import { AcceptInvitationButton } from "@/app/dashboard/accept-invitation-button";
 
 async function load<T>(
   path: string,

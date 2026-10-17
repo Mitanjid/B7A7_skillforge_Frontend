@@ -37,11 +37,11 @@ export default function proxy(req: NextRequest) {
   const { pathname, search } = req.nextUrl;
   const session = readSession(req.cookies.get("accessToken")?.value);
 
-    if (AUTH_PAGES.includes(pathname)) {
-      return session
-        ? NextResponse.redirect(new URL("/", req.url))
-        : NextResponse.next();
-    }
+  if (AUTH_PAGES.includes(pathname)) {
+    return session
+      ? NextResponse.redirect(new URL("/", req.url))
+      : NextResponse.next();
+  }
 
   const prefix = Object.keys(PROTECTED).find(
     (p) => pathname === p || pathname.startsWith(`${p}/`),

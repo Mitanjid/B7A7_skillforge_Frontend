@@ -1,7 +1,7 @@
 "use client";
 
-import { useCreateProblem } from "@/hooks/use-problems";
 import { ProblemForm } from "@/components/shared/problem-form";
+import { useCreateProblem } from "@/hooks/use-problems";
 
 export default function NewProblemPage() {
   const create = useCreateProblem();

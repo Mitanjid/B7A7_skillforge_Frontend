@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-
+import { Landing } from "@/components/home/landing";
 import {
   AdminHome,
   CandidateHome,
   CompanyHome,
 } from "@/components/home/role-home";
 import { getCurrentUser } from "@/lib/get-user";
-import { Landing } from "@/components/home/landing";
 
 export const metadata: Metadata = {
   title: "Developer assessments, done right",

@@ -25,9 +25,7 @@ interface PageProps {
   }>;
 }
 
-export default async function AssessmentsPage({
-  searchParams,
-}: PageProps) {
+export default async function AssessmentsPage({ searchParams }: PageProps) {
   const sp = await searchParams;
   const page = Number(sp.page) || 1;
 
@@ -49,7 +47,7 @@ export default async function AssessmentsPage({
 
         <Button
           nativeButton={false}
-           render={<Link href="/company/assessments/new" />}
+          render={<Link href="/company/assessments/new" />}
         >
           New assessment
         </Button>

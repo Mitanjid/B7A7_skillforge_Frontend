@@ -2,9 +2,9 @@
 
 import { Camera, CircleNotch, UserCircle } from "@phosphor-icons/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import Image from "next/image";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { ME_KEY } from "@/hooks/use-auth";
 import { api } from "@/lib/api-client";
@@ -52,14 +52,26 @@ export function ProfileImageUpload({
     upload.mutate(file);
   };
 
+  const shown = preview ?? src;
+
   return (
     <div className="flex items-center gap-4">
-      <Avatar className="size-20">
-        <AvatarImage src={preview ?? src ?? undefined} alt={name} />
-        <AvatarFallback>
-          <UserCircle className="size-10 text-muted-foreground" />
-        </AvatarFallback>
-      </Avatar>
+      <div className="relative size-20 shrink-0 overflow-hidden rounded-full border bg-muted">
+        {shown ? (
+          <Image
+            src={shown}
+            alt={name}
+            fill
+            sizes="80px"
+            className="object-cover"
+            unoptimized={shown.startsWith("blob:")}
+          />
+        ) : (
+          <div className="flex size-full items-center justify-center">
+            <UserCircle className="size-10 text-muted-foreground" />
+          </div>
+        )}
+      </div>
       <div className="space-y-1">
         <input
           ref={inputRef}

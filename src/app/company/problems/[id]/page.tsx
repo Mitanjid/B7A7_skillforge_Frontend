@@ -1,8 +1,8 @@
 "use client";
 
 import { use } from "react";
-import { Skeleton } from "@/components/ui/skeleton";
 import { ProblemForm } from "@/components/shared/problem-form";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useProblem, useUpdateProblem } from "@/hooks/use-problems";
 
 export default function EditProblemPage({

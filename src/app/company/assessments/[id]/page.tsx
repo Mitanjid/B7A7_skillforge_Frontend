@@ -9,6 +9,7 @@ import {
 } from "@phosphor-icons/react";
 import Link from "next/link";
 import { use, useState } from "react";
+import { StatusBadge } from "@/components/shared/status-badge";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,7 +21,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { StatusBadge } from "@/components/shared/status-badge";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -130,7 +130,7 @@ export default function AssessmentDetailPage({
             <Dialog open={pickerOpen} onOpenChange={setPickerOpen}>
               <DialogTrigger
                 render={
-                  <Button  size="sm" variant="outline">
+                  <Button size="sm" variant="outline">
                     <Plus className="mr-1 size-4" />
                     Add problem
                   </Button>
@@ -232,10 +232,7 @@ export default function AssessmentDetailPage({
               <AlertDialog>
                 <AlertDialogTrigger
                   render={
-                    <Button
-                      
-                       disabled={assessment.totalMarks === 0}
-                    >
+                    <Button disabled={assessment.totalMarks === 0}>
                       <CreditCard className="mr-2 size-4" />
                       Pay & continue
                     </Button>

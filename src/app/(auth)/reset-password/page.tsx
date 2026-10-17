@@ -5,6 +5,7 @@ import { CircleNotch } from "@phosphor-icons/react";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import { useForm } from "react-hook-form";
+import { PasswordInput } from "@/components/shared/password-input";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -20,7 +21,6 @@ import {
   type ResetPasswordInput,
   resetPasswordSchema,
 } from "@/lib/validations/auth";
-import { PasswordInput } from "@/components/shared/password-input";
 
 function ResetPasswordForm() {
   const params = useSearchParams();
