@@ -31,6 +31,7 @@ import type {
   Invitation,
   User,
 } from "@/types/api";
+import { AcceptInvitationButton } from "@/app/dashboard/accept-invitation-button";
 
 async function load<T>(
   path: string,
@@ -127,7 +128,7 @@ function firstName(user: User) {
 export async function CandidateHome({ user }: { user: User }) {
   const [accepted, pending, attempts] = await Promise.all([
     load<Invitation>("/invitations/my", { limit: 20, status: "ACCEPTED" }),
-    load<Invitation>("/invitations/my", { limit: 1, status: "PENDING" }),
+    load<Invitation>("/invitations/my", { limit: 20, status: "PENDING" }),
     load<Attempt>("/attempts/my", { limit: 20 }),
   ]);
 
@@ -158,9 +159,9 @@ export async function CandidateHome({ user }: { user: User }) {
         <Stats>
           <StatCard
             label="Pending invites"
-            value={pending.total}
+            value={pending.data.length}
             icon={Envelope}
-            hint="Open the email link to accept"
+            hint="Accept below to start"
           />
           <StatCard
             label="Ready to start"
@@ -214,12 +215,28 @@ export async function CandidateHome({ user }: { user: User }) {
                   <StartAttemptButton invitationId={inv.id} />
                 </div>
               ))}
-              {inProgress.length === 0 && readyToStart.length === 0 && (
-                <p className="text-sm text-muted-foreground">
-                  Nothing waiting. When a company invites you, open the link in
-                  your email to accept it.
-                </p>
-              )}
+              {pending.data.map((inv) => (
+                <div
+                  key={inv.id}
+                  className="flex items-center justify-between gap-3 rounded-md border border-dashed p-3 text-sm"
+                >
+                  <div>
+                    <p className="font-medium">{inv.assessment?.title}</p>
+                    <p className="text-xs text-muted-foreground">
+                      Invitation · {inv.assessment?.durationMinutes} minutes
+                    </p>
+                  </div>
+                  <AcceptInvitationButton token={inv.token} />
+                </div>
+              ))}
+              {inProgress.length === 0 &&
+                readyToStart.length === 0 &&
+                pending.data.length === 0 && (
+                  <p className="text-sm text-muted-foreground">
+                    Nothing waiting. When a company invites your email, it will
+                    show up here.
+                  </p>
+                )}
             </CardContent>
           </Card>
 
