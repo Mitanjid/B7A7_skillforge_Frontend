@@ -27,6 +27,7 @@ import { DEMO_ACCOUNTS } from "@/lib/constants";
 import { type LoginInput, loginSchema } from "@/lib/validations/auth";
 import type { Role } from "@/types/api";
 import { GoogleButton } from "@/components/shared/google-button";
+import { PasswordInput } from "@/components/shared/password-input";
 const ROLE_ICON: Record<Role, typeof ShieldCheck> = {
   ADMIN: ShieldCheck,
   CANDIDATE: UserCircle,
@@ -88,9 +89,8 @@ export function LoginView() {
                   Forgot password?
                 </Link>
               </div>
-              <Input
+              <PasswordInput
                 id="password"
-                type="password"
                 autoComplete="current-password"
                 aria-invalid={!!errors.password}
                 {...register("password")}

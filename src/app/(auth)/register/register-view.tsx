@@ -25,6 +25,7 @@ import { cn } from "@/lib/utils";
 import { type RegisterInput, registerSchema } from "@/lib/validations/auth";
 import { GoogleButton } from "@/components/shared/google-button";
 import { Separator } from "@/components/ui/separator";
+import { PasswordInput } from "@/components/shared/password-input";
 
 // ADMIN can't self-register, so the form only deals with these two roles.
 type SelfServeRole = RegisterInput["role"];
@@ -144,9 +145,8 @@ export function RegisterView() {
 
           <div className="space-y-2">
             <Label htmlFor="password">Password</Label>
-            <Input
+            <PasswordInput
               id="password"
-              type="password"
               autoComplete="new-password"
               aria-invalid={!!errors.password}
               {...register("password")}

@@ -20,6 +20,7 @@ import {
   type ResetPasswordInput,
   resetPasswordSchema,
 } from "@/lib/validations/auth";
+import { PasswordInput } from "@/components/shared/password-input";
 
 function ResetPasswordForm() {
   const params = useSearchParams();
@@ -83,9 +84,8 @@ function ResetPasswordForm() {
 
           <div className="space-y-2">
             <Label htmlFor="newPassword">New password</Label>
-            <Input
+            <PasswordInput
               id="newPassword"
-              type="password"
               autoComplete="new-password"
               aria-invalid={!!errors.newPassword}
               {...register("newPassword")}
