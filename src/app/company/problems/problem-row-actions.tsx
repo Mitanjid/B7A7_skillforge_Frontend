@@ -28,6 +28,7 @@ export function ProblemRowActions({
   return (
     <div className="flex justify-end gap-1">
       <Button
+        nativeButton={false}
         variant="ghost"
         size="icon"
         render={<Link href={`/company/problems/${problemId}`} />}
@@ -39,11 +40,7 @@ export function ProblemRowActions({
       <AlertDialog open={open} onOpenChange={setOpen}>
         <AlertDialogTrigger
           render={
-            <Button
-              variant="ghost"
-              size="icon"
-              aria-label="Delete problem"
-            >
+            <Button variant="ghost" size="icon" aria-label="Delete problem">
               <Trash className="size-4 text-destructive" />
             </Button>
           }
@@ -51,12 +48,10 @@ export function ProblemRowActions({
 
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>
-              Delete this problem?
-            </AlertDialogTitle>
+            <AlertDialogTitle>Delete this problem?</AlertDialogTitle>
             <AlertDialogDescription>
-              This can't be undone. Problems already attached to a
-              published assessment are unaffected.
+              This can't be undone. Problems already attached to a published
+              assessment are unaffected.
             </AlertDialogDescription>
           </AlertDialogHeader>
 

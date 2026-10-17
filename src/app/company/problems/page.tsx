@@ -48,7 +48,7 @@ export default async function ProblemsPage({ searchParams }: PageProps) {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-2xl font-semibold">Problems</h1>
 
-        <Button render={<Link href="/company/problems/new" />}>
+        <Button nativeButton={false} render={<Link href="/company/problems/new" />}>
           New problem
         </Button>
       </div>
