@@ -12,32 +12,32 @@ export function SearchInput({
 }) {
   const router = useRouter();
   const params = useSearchParams();
-  const searchParams = params.toString();
+  const searchParam = params.get("search") ?? "";
 
-  const [value, setValue] = useState(params.get("search") ?? "");
+  const [value, setValue] = useState(searchParam);
 
+  // Keep the box in sync when the URL changes (back/forward, clear filters)
   useEffect(() => {
-    const id = setTimeout(() => {
-      const sp = new URLSearchParams(searchParams);
+    setValue(searchParam);
+  }, [searchParam]);
 
-      if (value) {
-        sp.set("search", value);
-        sp.set("page", "1");
-      } else {
-        sp.delete("search");
-        sp.delete("page");
-      }
+  // Push to the URL only when the typed value really differs from it
+  useEffect(() => {
+    if (value === searchParam) return;
+
+    const id = setTimeout(() => {
+      const sp = new URLSearchParams(window.location.search);
+
+      if (value) sp.set("search", value);
+      else sp.delete("search");
+      sp.delete("page"); // a new search always starts from page 1
 
       const query = sp.toString();
       router.push(query ? `?${query}` : "?");
     }, 400);
 
     return () => clearTimeout(id);
-  }, [value, searchParams, router]);
-
-  useEffect(() => {
-    setValue(params.get("search") ?? "");
-  }, [params]);
+  }, [value, searchParam, router]);
 
   return (
     <div className="relative w-full max-w-xs">
