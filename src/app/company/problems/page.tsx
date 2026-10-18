@@ -34,7 +34,7 @@ export default async function ProblemsPage({ searchParams }: PageProps) {
 
   const res = await serverFetch<Problem[]>("/problems", {
     page,
-    limit: 10,
+    limit: 5,
     search: sp.search,
     type: sp.type,
     difficulty: sp.difficulty,

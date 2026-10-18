@@ -31,7 +31,7 @@ export default async function AssessmentsPage({ searchParams }: PageProps) {
 
   const res = await serverFetch<Assessment[]>("/assessments", {
     page,
-    limit: 10,
+    limit: 5,
     status: sp.status,
     sortBy: "createdAt",
     sortOrder: "desc",

@@ -34,7 +34,7 @@ export default async function AdminUsersPage({ searchParams }: PageProps) {
 
   const res = await serverFetch<AdminUser[]>("/admin/users", {
     page,
-    limit: 10,
+    limit: 5,
     search: sp.search,
     role: sp.role,
     isActive: sp.isActive,
