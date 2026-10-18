@@ -37,6 +37,7 @@ const ROLE_ICON: Record<Role, typeof ShieldCheck> = {
 
 export function LoginView() {
   const login = useLogin();
+  const demoLogin = useLogin({ toDashboard: true });
   const slow = useSlowHint(login.isPending);
 
   const {
@@ -49,7 +50,7 @@ export function LoginView() {
     fetch("/api/health").catch(() => undefined);
   }, []);
 
-  const pendingEmail = login.isPending ? login.variables?.email : null;
+  const pendingEmail = demoLogin.isPending ? demoLogin.variables?.email : null;
 
   return (
     <div className="w-full max-w-lg space-y-6">
@@ -159,9 +160,14 @@ export function LoginView() {
                     variant="outline"
                     size="sm"
                     className="mt-auto w-full"
-                    disabled={login.isPending || !acc.email}
+                    disabled={
+                      login.isPending || demoLogin.isPending || !acc.email
+                    }
                     onClick={() =>
-                      login.mutate({ email: acc.email, password: acc.password })
+                      demoLogin.mutate({
+                        email: acc.email,
+                        password: acc.password,
+                      })
                     }
                   >
                     {loading && (
