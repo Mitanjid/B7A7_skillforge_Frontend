@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CircleNotch, Plus, X } from "@phosphor-icons/react";
 import { useFieldArray, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import type { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -40,6 +41,7 @@ export function ProblemForm({
     handleSubmit,
     watch,
     setValue,
+    clearErrors,
     control,
     formState: { errors },
   } = useForm<z.input<typeof problemSchema>, unknown, ProblemInput>({
@@ -66,16 +68,48 @@ export function ProblemForm({
         },
   });
 
-  const { fields, append, remove } = useFieldArray({
+  // keyName "key": RHF's generated key must NOT overwrite each option's own
+  // `id`, which is what correctOption points to.
+  const { fields, append, remove, replace } = useFieldArray({
     control,
     name: "options",
+    keyName: "key",
   });
   const type = watch("type");
   const correctOption = watch("correctOption");
   const tagsValue = watch("tags");
 
+  const onTypeChange = (v: "MCQ" | "WRITTEN") => {
+    setValue("type", v);
+    clearErrors(["options", "correctOption"]);
+    if (v === "WRITTEN") {
+      replace([]);
+      setValue("correctOption", undefined);
+    } else if (fields.length < 2) {
+      replace([
+        { id: nextOptionId(), text: "" },
+        { id: nextOptionId(), text: "" },
+      ]);
+    }
+  };
+
+  const onRemoveOption = (index: number, optionId: string) => {
+    if (correctOption === optionId) setValue("correctOption", undefined);
+    remove(index);
+  };
+
+  const optionsError =
+    (errors.options?.root?.message as string | undefined) ??
+    (errors.options?.message as string | undefined);
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
+    <form
+      onSubmit={handleSubmit(onSubmit, () =>
+        toast.error("Please fix the highlighted fields"),
+      )}
+      className="space-y-6"
+      noValidate
+    >
       <Card>
         <CardHeader>
           <CardTitle className="text-base">Problem details</CardTitle>
@@ -114,7 +148,7 @@ export function ProblemForm({
               <Select
                 value={type}
                 onValueChange={(v: "MCQ" | "WRITTEN" | null) => {
-                  if (v !== null) setValue("type", v);
+                  if (v !== null) onTypeChange(v);
                 }}
               >
                 <SelectTrigger>
@@ -148,7 +182,23 @@ export function ProblemForm({
 
             <div className="space-y-2">
               <Label htmlFor="marks">Default marks</Label>
-              <Input id="marks" type="number" min={1} {...register("marks")} />
+              <Input
+                id="marks"
+                type="number"
+                min={1}
+                aria-invalid={!!errors.marks}
+                {...register("marks", {
+                  setValueAs: (v) =>
+                    v === "" || v === null || v === undefined
+                      ? undefined
+                      : Number(v),
+                })}
+              />
+              {errors.marks && (
+                <p className="text-sm text-destructive">
+                  {errors.marks.message}
+                </p>
+              )}
             </div>
           </div>
 
@@ -178,45 +228,55 @@ export function ProblemForm({
           </CardHeader>
           <CardContent className="space-y-3">
             {fields.map((field, index) => (
-              <div key={field.id} className="flex items-center gap-2">
-                <input
-                  type="radio"
-                  name="correctOption"
-                  checked={correctOption === field.id}
-                  onChange={() => setValue("correctOption", field.id)}
-                  aria-label={`Mark option ${index + 1} as correct`}
-                />
-                <Input
-                  placeholder={`Option ${index + 1}`}
-                  {...register(`options.${index}.text`)}
-                />
-                <input
-                  type="hidden"
-                  {...register(`options.${index}.id`)}
-                  value={field.id}
-                />
-                {fields.length > 2 && (
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => remove(index)}
-                  >
-                    <X className="size-4" />
-                  </Button>
+              <div key={field.key} className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    name="correctOption"
+                    checked={correctOption === field.id}
+                    onChange={() => {
+                      setValue("correctOption", field.id, {
+                        shouldDirty: true,
+                      });
+                      clearErrors(["correctOption", "options"]);
+                    }}
+                    aria-label={`Mark option ${index + 1} as correct`}
+                  />
+                  <Input
+                    placeholder={`Option ${index + 1}`}
+                    aria-invalid={!!errors.options?.[index]?.text}
+                    {...register(`options.${index}.text`)}
+                  />
+                  {fields.length > 2 && (
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      aria-label={`Remove option ${index + 1}`}
+                      onClick={() => onRemoveOption(index, field.id)}
+                    >
+                      <X className="size-4" />
+                    </Button>
+                  )}
+                </div>
+                {errors.options?.[index]?.text && (
+                  <p className="pl-6 text-sm text-destructive">
+                    {errors.options[index]?.text?.message}
+                  </p>
                 )}
               </div>
             ))}
-            {errors.options && (
-              <p className="text-sm text-destructive">
-                {errors.options.message as string}
-              </p>
+            {optionsError && (
+              <p className="text-sm text-destructive">{optionsError}</p>
             )}
             {errors.correctOption && (
               <p className="text-sm text-destructive">
                 {errors.correctOption.message}
               </p>
             )}
+            <p className="text-xs text-muted-foreground">
+              Select the radio button next to the correct option.
+            </p>
             <Button
               type="button"
               variant="outline"
