@@ -40,7 +40,6 @@ export const NAV_ITEMS: Record<Role, NavItem[]> = {
     { label: "Users", href: "/admin/users", icon: Users },
     { label: "Audit Logs", href: "/admin/audit-logs", icon: Scroll },
     { label: "Analytics", href: "/admin/analytics", icon: ChartBar },
-    { label: "Payments", href: "/admin/payments", icon: CreditCard },
     { label: "Settings", href: "/admin/settings", icon: Gear },
   ],
 };
